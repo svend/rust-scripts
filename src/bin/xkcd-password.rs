@@ -41,8 +41,8 @@ fn main() {
     let length = min_length(words.len() as u32, min_bits);
 
     let mut rng = thread_rng();
-    let password = (0..length)
-        .map(|_| words.choose(&mut rng).unwrap().to_string())
+    let password = std::iter::repeat_with(|| words.choose(&mut rng).unwrap().to_string())
+        .take(length as usize)
         .collect::<Vec<_>>()
         .join(" ");
 
