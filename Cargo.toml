@@ -1,0 +1,9 @@
+[package]
+name = "rust-scripts"
+version = "0.1.0"
+authors = ["Svend Sorensen <svend@svends.net>"]
+edition = "2018"
+
+[dependencies]
+rand = "0.6.4"
+structopt = "0.2.14"
