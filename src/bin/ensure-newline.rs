@@ -1,7 +1,7 @@
 use std::fs::{File, OpenOptions};
 use std::io;
 use std::io::prelude::*;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process;
 use structopt::StructOpt;
 
@@ -17,12 +17,12 @@ struct Opt {
     files: Vec<PathBuf>,
 }
 
-fn append_newline(p: &PathBuf) -> io::Result<()> {
+fn append_newline(p: &Path) -> io::Result<()> {
     let mut file = OpenOptions::new().write(true).append(true).open(p)?;
     writeln!(file, "")
 }
 
-fn has_newline(p: &PathBuf) -> io::Result<bool> {
+fn has_newline(p: &Path) -> io::Result<bool> {
     let mut file = File::open(&p)?;
     let mut s = String::new();
 
