@@ -5,7 +5,7 @@ use std::path::PathBuf;
 use std::process;
 use structopt::StructOpt;
 
-/// Ensure files contain terminal newline
+/// Check files for terminal newline
 #[derive(StructOpt, Debug)]
 struct Opt {
     /// Write missing newline to files
@@ -13,7 +13,7 @@ struct Opt {
     write: bool,
 
     /// Files to process
-    #[structopt(name = "FILE", parse(from_os_str))]
+    #[structopt(name = "FILE", parse(from_os_str), required = true)]
     files: Vec<PathBuf>,
 }
 
