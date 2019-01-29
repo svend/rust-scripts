@@ -1,5 +1,5 @@
+use failure::{Error, ResultExt};
 use std::fs::{File, OpenOptions};
-use std::io;
 use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 use std::process;
@@ -17,12 +17,14 @@ struct Opt {
     files: Vec<PathBuf>,
 }
 
-fn append_newline(p: &Path) -> io::Result<()> {
+fn append_newline(p: &Path) -> Result<(), Error> {
     let mut file = OpenOptions::new().write(true).append(true).open(p)?;
-    writeln!(file, "")
+    writeln!(file, "")?;
+
+    Ok(())
 }
 
-fn has_newline(p: &Path) -> io::Result<bool> {
+fn has_newline(p: &Path) -> Result<bool, Error> {
     let mut file = File::open(&p)?;
     let mut s = String::new();
 
@@ -34,14 +36,14 @@ fn has_newline(p: &Path) -> io::Result<bool> {
     }
 }
 
-fn try_main() -> io::Result<()> {
+fn try_main() -> Result<(), Error> {
     let opt = Opt::from_args();
 
     for path in opt.files {
-        if !has_newline(&path)? {
+        if !has_newline(&path).context("foo")? {
             println!("{}", path.display());
             if opt.write {
-                append_newline(&path)?;
+                append_newline(&path).context("foo")?;
             }
         }
     }
