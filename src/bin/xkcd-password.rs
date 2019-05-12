@@ -13,9 +13,20 @@ struct Opt {
     min_bits: u32,
 }
 
-fn min_length(num_symbols: u32, min_bits: u32) -> u32 {
-    let length = f64::from(min_bits) / f64::from(num_symbols).log2();
-    length.ceil() as u32
+fn main() {
+    let opt = Opt::from_args();
+    let min_bits = opt.min_bits;
+
+    let words = get_words();
+    let length = min_length(words.len() as u32, min_bits);
+
+    let mut rng = thread_rng();
+    let password = std::iter::repeat_with(|| words.choose(&mut rng).unwrap().to_string())
+        .take(length as usize)
+        .collect::<Vec<_>>()
+        .join(" ");
+
+    println!("{}", password);
 }
 
 fn get_words() -> Vec<String> {
@@ -33,20 +44,9 @@ fn get_words() -> Vec<String> {
         .collect::<Vec<_>>()
 }
 
-fn main() {
-    let opt = Opt::from_args();
-    let min_bits = opt.min_bits;
-
-    let words = get_words();
-    let length = min_length(words.len() as u32, min_bits);
-
-    let mut rng = thread_rng();
-    let password = std::iter::repeat_with(|| words.choose(&mut rng).unwrap().to_string())
-        .take(length as usize)
-        .collect::<Vec<_>>()
-        .join(" ");
-
-    println!("{}", password);
+fn min_length(num_symbols: u32, min_bits: u32) -> u32 {
+    let length = f64::from(min_bits) / f64::from(num_symbols).log2();
+    length.ceil() as u32
 }
 
 #[cfg(test)]

@@ -20,12 +20,6 @@ struct Opt {
     years: i32,
 }
 
-fn monthly_pi(amount: f64, rate: f64, years: i32) -> f64 {
-    let n = years * 12;
-    let r = rate / 12.0;
-    (r * amount * (1.0 + r).powi(n)) / ((1.0 + r).powi(n) - 1.0)
-}
-
 fn main() {
     let opt = Opt::from_args();
     let mut amount = opt.amount;
@@ -46,4 +40,10 @@ fn main() {
             i, amount, principal, interest, pi
         );
     }
+}
+
+fn monthly_pi(amount: f64, rate: f64, years: i32) -> f64 {
+    let n = years * 12;
+    let r = rate / 12.0;
+    (r * amount * (1.0 + r).powi(n)) / ((1.0 + r).powi(n) - 1.0)
 }
