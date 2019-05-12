@@ -17,20 +17,10 @@ struct Opt {
     files: Vec<PathBuf>,
 }
 
-fn append_newline(p: &Path) -> io::Result<()> {
-    let mut file = OpenOptions::new().write(true).append(true).open(p)?;
-    writeln!(file, "")
-}
-
-fn has_newline(p: &Path) -> io::Result<bool> {
-    let mut file = File::open(&p)?;
-    let mut s = String::new();
-
-    file.read_to_string(&mut s)?;
-
-    match s.chars().last() {
-        Some('\n') => Ok(true),
-        _ => Ok(false),
+fn main() {
+    if let Err(err) = try_main() {
+        eprintln!("{}", err);
+        process::exit(1);
     }
 }
 
@@ -49,9 +39,19 @@ fn try_main() -> io::Result<()> {
     Ok(())
 }
 
-fn main() {
-    if let Err(err) = try_main() {
-        eprintln!("{}", err);
-        process::exit(1);
+fn has_newline(p: &Path) -> io::Result<bool> {
+    let mut file = File::open(&p)?;
+    let mut s = String::new();
+
+    file.read_to_string(&mut s)?;
+
+    match s.chars().last() {
+        Some('\n') => Ok(true),
+        _ => Ok(false),
     }
+}
+
+fn append_newline(p: &Path) -> io::Result<()> {
+    let mut file = OpenOptions::new().write(true).append(true).open(p)?;
+    writeln!(file, "")
 }
