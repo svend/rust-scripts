@@ -35,6 +35,7 @@ mod tests {
 10.71.186.145
 10.247.154.132
 "#;
+
     #[test]
     fn test_sort_ips() {
         let cursor = io::Cursor::new(IPS);
