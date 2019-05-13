@@ -53,5 +53,5 @@ fn has_newline(p: &Path) -> io::Result<bool> {
 
 fn append_newline(p: &Path) -> io::Result<()> {
     let mut file = OpenOptions::new().write(true).append(true).open(p)?;
-    writeln!(file, "")
+    writeln!(file)
 }
