@@ -28,7 +28,8 @@ fn try_main() -> io::Result<()> {
     let opt = Opt::from_args();
 
     for path in opt.files {
-        if !has_newline(&path)? {
+        let file = File::open(&path)?;
+        if !has_newline(&file)? {
             println!("{}", path.display());
             if opt.write {
                 append_newline(&path)?;
@@ -39,11 +40,9 @@ fn try_main() -> io::Result<()> {
     Ok(())
 }
 
-fn has_newline(p: &Path) -> io::Result<bool> {
-    let mut file = File::open(&p)?;
+fn has_newline<R: io::Read>(mut r: R) -> io::Result<bool> {
     let mut s = String::new();
-
-    file.read_to_string(&mut s)?;
+    r.read_to_string(&mut s)?;
 
     match s.chars().last() {
         Some('\n') => Ok(true),
@@ -54,4 +53,20 @@ fn has_newline(p: &Path) -> io::Result<bool> {
 fn append_newline(p: &Path) -> io::Result<()> {
     let mut file = OpenOptions::new().write(true).append(true).open(p)?;
     writeln!(file)
+}
+
+#[cfg(test)]
+mod tests {
+    use std::io;
+
+    use super::*;
+
+    #[test]
+    fn test_has_newline() {
+        let cursor = io::Cursor::new("one\two\n");
+        assert!(has_newline(cursor).unwrap());
+
+        let cursor = io::Cursor::new("one\two");
+        assert!(!has_newline(cursor).unwrap());
+    }
 }
