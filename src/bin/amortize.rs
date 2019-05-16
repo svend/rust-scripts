@@ -7,7 +7,7 @@ struct Opt {
     #[structopt(long = "amount")]
     amount: f64,
 
-    /// Extra montly payment
+    /// Extra monthly payment
     #[structopt(long = "extra", default_value = "0.0")]
     extra: f64,
 
