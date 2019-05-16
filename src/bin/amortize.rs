@@ -3,19 +3,19 @@ use structopt::StructOpt;
 /// Print amortization table
 #[derive(StructOpt, Debug)]
 struct Opt {
-    /// Amount
+    /// Loan amount
     #[structopt(long = "amount")]
     amount: f64,
 
-    /// Extra
+    /// Extra montly payment
     #[structopt(long = "extra", default_value = "0.0")]
     extra: f64,
 
-    /// rate
+    /// Interest rate as a percentage ("20" for 20%)
     #[structopt(long = "rate")]
     rate: f64,
 
-    /// Years
+    /// Number of years
     #[structopt(long = "years")]
     years: i32,
 }
@@ -28,6 +28,7 @@ fn main() {
     let years = opt.years;
     let pi = monthly_pi(amount, rate, years);
 
+    println!("Month Amount Principal Interest P+I");
     for i in 1.. {
         let interest = amount * rate / 12.0;
         let principal = pi - interest;
