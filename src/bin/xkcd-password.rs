@@ -20,6 +20,8 @@ arg_enum! {
     enum WordList {
         Bip39,
         EffLarge,
+        EffShort,
+        EffShort2,
     }
 }
 
@@ -28,6 +30,8 @@ impl WordList {
         let words = match self {
             Self::Bip39 => include_str!("bip-0039-english.txt"),
             Self::EffLarge => include_str!("eff_large_wordlist.txt"),
+            Self::EffShort => include_str!("eff_short_wordlist.txt"),
+            Self::EffShort2 => include_str!("eff_short_wordlist_2_0.txt",),
         };
         words.lines().map(|s| s.to_string()).collect()
     }
