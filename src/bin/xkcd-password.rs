@@ -27,7 +27,7 @@ fn main() {
 }
 
 fn get_words() -> Vec<String> {
-    let words = include_str!("bips-0039-english.txt");
+    let words = include_str!("bip-0039-english.txt");
     words.lines().map(|s| s.to_string()).collect()
 }
 
