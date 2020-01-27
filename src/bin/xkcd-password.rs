@@ -36,7 +36,7 @@ fn main() {
     let opt = Opt::from_args();
     let min_bits = opt.min_bits;
 
-    let words = WordList::Bip39.words();
+    let words = opt.word_list.words();
     let length = min_length(words.len(), min_bits);
 
     let mut rng = thread_rng();
