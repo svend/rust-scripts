@@ -1,9 +1,6 @@
 use rand::seq::SliceRandom;
 use rand::thread_rng;
-use std::process::Command;
 use structopt::StructOpt;
-
-const ASPELL_DICT: &str = "en_US";
 
 /// Generate XKCD 936 password
 #[derive(StructOpt, Debug)]
@@ -30,18 +27,8 @@ fn main() {
 }
 
 fn get_words() -> Vec<String> {
-    let output = Command::new("aspell")
-        .args(&["dump", "master", ASPELL_DICT])
-        .output()
-        .expect("failed to execute process");
-
-    let output = String::from_utf8_lossy(&output.stdout);
-
-    output
-        .lines()
-        .filter(|s| s.chars().all(|c| c.is_lowercase()))
-        .map(|s| s.to_string())
-        .collect::<Vec<_>>()
+    let words = include_str!("bips-0039-english.txt");
+    words.lines().map(|s| s.to_string()).collect()
 }
 
 fn min_length(num_symbols: u32, min_bits: u32) -> u32 {
