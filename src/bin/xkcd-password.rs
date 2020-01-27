@@ -9,6 +9,7 @@ struct Opt {
     /// Word list
     #[structopt(long = "word-list", default_value = "Bip39")]
     word_list: WordList,
+
     /// Minimum bits of entropy
     #[structopt(long = "min-bits", default_value = "44")]
     min_bits: usize,
