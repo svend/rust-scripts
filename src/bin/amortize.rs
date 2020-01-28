@@ -1,3 +1,4 @@
+use anyhow::Result;
 use std::io::{self, Write};
 use structopt::StructOpt;
 use tabwriter::TabWriter;
@@ -22,7 +23,7 @@ struct Opt {
     years: i32,
 }
 
-fn main() {
+fn main() -> Result<()> {
     let opt = Opt::from_args();
     let mut amount = opt.amount;
     let extra = opt.extra;
@@ -31,7 +32,7 @@ fn main() {
     let pi = monthly_pi(amount, rate, years);
 
     let mut tw = TabWriter::new(io::stdout());
-    writeln!(&mut tw, "Month\tAmount\tPrincipal\tInterest\tP+I").unwrap();
+    writeln!(&mut tw, "Month\tAmount\tPrincipal\tInterest\tP+I")?;
     for i in 1.. {
         let interest = amount * rate / 12.0;
         let principal = pi - interest;
@@ -43,10 +44,10 @@ fn main() {
             &mut tw,
             "{}\t{:.2}\t{:.2}\t{:.2}\t{:.2}",
             i, amount, principal, interest, pi
-        )
-        .unwrap();
+        )?;
     }
-    tw.flush().unwrap();
+    tw.flush()?;
+    Ok(())
 }
 
 fn monthly_pi(amount: f64, rate: f64, years: i32) -> f64 {

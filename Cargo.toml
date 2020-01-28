@@ -5,6 +5,7 @@ authors = ["Svend Sorensen <svend@svends.net>"]
 edition = "2018"
 
 [dependencies]
+anyhow = "1.0.26"
 clap = "2.33.0"
 rand = "0.7.3"
 structopt = "0.3.8"
