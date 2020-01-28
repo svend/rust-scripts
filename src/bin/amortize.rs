@@ -1,4 +1,6 @@
+use std::io::{self, Write};
 use structopt::StructOpt;
+use tabwriter::TabWriter;
 
 /// Print amortization table
 #[derive(StructOpt, Debug)]
@@ -28,7 +30,8 @@ fn main() {
     let years = opt.years;
     let pi = monthly_pi(amount, rate, years);
 
-    println!("Month Amount Principal Interest P+I");
+    let mut tw = TabWriter::new(io::stdout());
+    writeln!(&mut tw, "Month\tAmount\tPrincipal\tInterest\tP+I").unwrap();
     for i in 1.. {
         let interest = amount * rate / 12.0;
         let principal = pi - interest;
@@ -36,11 +39,14 @@ fn main() {
         if amount < 0.00 {
             break;
         }
-        println!(
-            "{:>3} {:.2} {:.2} {:.2} {:.2}",
+        writeln!(
+            &mut tw,
+            "{}\t{:.2}\t{:.2}\t{:.2}\t{:.2}",
             i, amount, principal, interest, pi
-        );
+        )
+        .unwrap();
     }
+    tw.flush().unwrap();
 }
 
 fn monthly_pi(amount: f64, rate: f64, years: i32) -> f64 {
