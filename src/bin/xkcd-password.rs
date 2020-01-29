@@ -31,7 +31,7 @@ impl WordList {
             Self::Bip39 => include_str!("bip-0039-english.txt"),
             Self::EffLarge => include_str!("eff_large_wordlist.txt"),
             Self::EffShort => include_str!("eff_short_wordlist.txt"),
-            Self::EffShort2 => include_str!("eff_short_wordlist_2_0.txt",),
+            Self::EffShort2 => include_str!("eff_short_wordlist_2_0.txt"),
         };
         words.lines().map(|s| s.to_string()).collect()
     }
