@@ -3,8 +3,6 @@ use std::io::BufRead;
 use std::net::{IpAddr, Ipv4Addr};
 use std::str::FromStr;
 
-const DEFAULT_IP: IpAddr = IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0));
-
 fn main() {
     let stdin = std::io::stdin();
     let lines = sort_lines(stdin.lock());
@@ -19,7 +17,7 @@ fn sort_lines<R: BufRead>(r: R) -> Vec<String> {
         .lines()
         .map(|s| s.expect("failed to get line from stdin"))
         .collect();
-    lines.sort_by_key(|line| get_ip(&line).unwrap_or(DEFAULT_IP));
+    lines.sort_by_key(|line| get_ip(&line));
     lines
 }
 
