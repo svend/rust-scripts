@@ -1,9 +1,9 @@
+use anyhow::Result;
 use std::fs::{File, OpenOptions};
 use std::io;
 use std::io::prelude::*;
 use std::io::SeekFrom;
 use std::path::{Path, PathBuf};
-use std::process;
 use structopt::StructOpt;
 
 /// Check files for terminal newline
@@ -18,14 +18,7 @@ struct Opt {
     files: Vec<PathBuf>,
 }
 
-fn main() {
-    if let Err(err) = try_main() {
-        eprintln!("{}", err);
-        process::exit(1);
-    }
-}
-
-fn try_main() -> io::Result<()> {
+fn main() -> Result<()> {
     let opt = Opt::from_args();
 
     for path in opt.files {
