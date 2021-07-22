@@ -13,6 +13,10 @@ struct Opt {
     /// Minimum bits of entropy
     #[structopt(long = "min-bits", default_value = "44")]
     min_bits: usize,
+
+    /// Verbose output
+    #[structopt(long = "verbose")]
+    verbose: bool,
 }
 
 arg_enum! {
@@ -56,6 +60,17 @@ fn main() {
     .join(" ");
 
     println!("{}", password);
+
+    if opt.verbose {
+        eprintln!(
+            "passphrase entropy: {} bits",
+            entropy_bits(words.len(), length)
+        );
+    }
+}
+
+fn entropy_bits(num_symbols: usize, length: usize) -> f64 {
+    (length as f64) * (num_symbols as f64).log2()
 }
 
 fn min_length(num_symbols: usize, min_bits: usize) -> usize {
